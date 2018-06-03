@@ -1,4 +1,4 @@
-export default function(label) {
+export default function(label = "Hello World") {
     const element = document.createElement("div");
 
     element.innerHTML = label;

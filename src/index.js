@@ -1,3 +1,6 @@
+import "react";
+import "react-dom";
+
 import module from "./module";
 
 import "./style.css";

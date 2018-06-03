@@ -19,7 +19,15 @@ module.exports = mode => {
             rules: setupLoaders(mode),
         },
 
+        optimization: mode === "production" ? {
+            splitChunks: {
+                chunks: "initial",
+            },
+        } : {},
+
         plugins: setupPlugins(mode),
+
+        devtool: mode === "production" ? "source-map" : "cheap-eval-source-map",
 
         devServer: {
             // Display only errors to reduce the amount of output.
@@ -33,6 +41,11 @@ module.exports = mode => {
 
 function setupLoaders(mode) {
     const loaders = [
+        {
+            test: /\.js$/,
+            include: PATHS.app,
+            use: "babel-loader",
+        },
         {
             test: /\.css$/,
             use: [mode === "production" ? MiniCssExtractPlugin.loader : "style-loader", "css-loader"],
@@ -51,7 +64,7 @@ function setupPlugins(mode) {
             new MiniCssExtractPlugin({
                 // `allChunks` is needed to extract from extracted chunks as well.
                 allChunks: true,
-                filename: "[name].[contenthash].css",
+                filename: "[name].css",
             })
         ];
     }
