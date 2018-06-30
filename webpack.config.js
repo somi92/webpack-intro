@@ -1,5 +1,6 @@
 const path = require("path");
 
+const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
@@ -48,6 +49,7 @@ module.exports = mode => {
             host: process.env.HOST, // Defaults to `localhost`
             port: process.env.PORT, // Defaults to 8080
             open: false, // Open the page in browser
+            hot: true,
         },
     };
 };
@@ -79,6 +81,10 @@ function setupPlugins(mode) {
                 allChunks: true,
                 filename: "[name].[contenthash].css",
             })
+        ];
+    } else {
+        plugins = [
+            new webpack.HotModuleReplacementPlugin()
         ];
     }
 
