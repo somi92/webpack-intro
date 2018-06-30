@@ -20,10 +20,10 @@ module.exports = mode => {
             other: PATHS.app + "/other.js",
         },
 
-        output: {
+        output: mode === "production" ? {
             chunkFilename: "[name].[chunkhash].js",
             filename: "[name].[chunkhash].js"
-        },
+        } : {},
 
         module: {
             rules: setupLoaders(mode),
