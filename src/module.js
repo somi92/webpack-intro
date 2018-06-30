@@ -5,7 +5,13 @@ export default function(label = "Hello World") {
     element.id = "component";
 
     element.onclick = () => {
-        element.innerHTML = element.innerHTML + " CLICKED";
+        import("./lazy")
+        .then(lazy => {
+            element.innerHTML = element.innerHTML + " " + lazy.default;
+        })
+        .catch(err => {
+            console.log(err);
+        });
     };
 
     return element;

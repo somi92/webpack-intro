@@ -15,6 +15,16 @@ module.exports = mode => {
 
         mode,
 
+        entry: {
+            index: PATHS.app + "/index.js",
+            other: PATHS.app + "/other.js",
+        },
+
+        output: {
+            chunkFilename: "[name].[chunkhash].js",
+            filename: "[name].[chunkhash].js"
+        },
+
         module: {
             rules: setupLoaders(mode),
         },
@@ -23,6 +33,9 @@ module.exports = mode => {
             splitChunks: {
                 chunks: "initial",
             },
+            runtimeChunk: {
+                name: "manifest"
+            }
         } : {},
 
         plugins: setupPlugins(mode),
@@ -64,7 +77,7 @@ function setupPlugins(mode) {
             new MiniCssExtractPlugin({
                 // `allChunks` is needed to extract from extracted chunks as well.
                 allChunks: true,
-                filename: "[name].css",
+                filename: "[name].[contenthash].css",
             })
         ];
     }
