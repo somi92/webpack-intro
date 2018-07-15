@@ -1,6 +1,5 @@
 const path = require("path");
 
-const webpack = require("webpack");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 const CleanWebpackPlugin = require("clean-webpack-plugin");
@@ -18,30 +17,18 @@ module.exports = mode => {
 
         entry: {
             index: PATHS.app + "/index.js",
-            other: PATHS.app + "/other.js",
         },
 
-        output: mode === "production" ? {
-            chunkFilename: "[name].[chunkhash].js",
-            filename: "[name].[chunkhash].js"
-        } : {},
+        output: {
+            chunkFilename: "[name].js",
+            filename: "[name].js"
+        },
 
         module: {
             rules: setupLoaders(mode),
         },
 
-        optimization: mode === "production" ? {
-            splitChunks: {
-                chunks: "initial",
-            },
-            runtimeChunk: {
-                name: "manifest"
-            }
-        } : {},
-
         plugins: setupPlugins(mode),
-
-        devtool: mode === "production" ? "source-map" : "cheap-eval-source-map",
 
         devServer: {
             // Display only errors to reduce the amount of output.
@@ -49,7 +36,6 @@ module.exports = mode => {
             host: process.env.HOST, // Defaults to `localhost`
             port: process.env.PORT, // Defaults to 8080
             open: false, // Open the page in browser
-            hot: true,
         },
     };
 };
@@ -79,12 +65,8 @@ function setupPlugins(mode) {
             new MiniCssExtractPlugin({
                 // `allChunks` is needed to extract from extracted chunks as well.
                 allChunks: true,
-                filename: "[name].[contenthash].css",
+                filename: "[name].css",
             })
-        ];
-    } else {
-        plugins = [
-            new webpack.HotModuleReplacementPlugin()
         ];
     }
 
