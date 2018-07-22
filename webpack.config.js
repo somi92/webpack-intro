@@ -16,9 +16,12 @@ module.exports = mode => {
 
         mode,
 
+        resolve: {
+            extensions: [".ts", ".tsx", ".js"]
+        },
+
         entry: {
-            index: PATHS.app + "/index.js",
-            other: PATHS.app + "/other.js",
+            index: PATHS.app + "/index.ts",
         },
 
         output: mode === "production" ? {
@@ -41,7 +44,7 @@ module.exports = mode => {
 
         plugins: setupPlugins(mode),
 
-        devtool: mode === "production" ? "source-map" : "cheap-eval-source-map",
+        devtool: mode === "production" ? "source-map" : "inline-source-map",
 
         devServer: {
             // Display only errors to reduce the amount of output.
@@ -57,9 +60,9 @@ module.exports = mode => {
 function setupLoaders(mode) {
     const loaders = [
         {
-            test: /\.js$/,
+            test: /\.tsx?$/,
             include: PATHS.app,
-            use: "babel-loader",
+            use: "ts-loader",
         },
         {
             test: /\.css$/,
