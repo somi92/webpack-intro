@@ -1,2 +1,2 @@
 # webpack-intro
-Introduction to webpack
+Introduction to webpack (TypeScript example)
